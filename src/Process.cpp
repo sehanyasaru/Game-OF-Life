@@ -15,11 +15,8 @@ grid.setCellValue(row,column,cellSize);
 
 
 __global__ void CountNeighbors(int value,int *output){
-int counter=0;
 
-counter=counter+value;
-
-*output=counter;
+atomicAdd(output,value);
 }
 
 int Process::countNeighborsGPU(int row, int column) {
@@ -42,7 +39,7 @@ std::vector<std::pair<int,int>> neighbors = {
     for(const auto& offset:neighbors){
     int liverow=(row+offset.first+grid.getRows())%grid.getRows();
     int livecolumn=(column+offset.second+grid.getColumns())%grid.getColumns();
-    CountNeighbors<<<1, 1>>>(grid.getValue(liverow,livecolumn),d_output);
+    CountNeighbors<<<1,neighbors.size()>>>(grid.getValue(liverow,livecolumn),d_output);
     }
 
     int result;
@@ -84,69 +81,7 @@ for(int i=0;i<grid.getRows();i++){
 }
 grid=temp;
 }
-/*
-void Process::Draw(){
- grid.Draw();
-}
 
-void Process::SetCellValue(int row,int column,int value){
-
-grid.SetValue(row,column,value);
-}
-
-
-int Process:: CountNeighbors(int rows,int columns){
-
-int liveneighbors=0;
-std::vector<std::pair<int,int>> neighbors = {
-    {-1, 0},
-    {1, 0},
-    {0, -1},
-    {0, 1},
-    {-1, -1},
-    {-1, 1},
-    {1, -1},
-    {1, 1}
-};
-
-
-for(const auto& offset:neighbors){
-    int Row=(rows+offset.first+grid.getRows())%grid.getRows();
-    int column=(columns+offset.second+grid.getColumns())%grid.getColumns();
-    liveneighbors=liveneighbors+grid.GetValue(Row,column);
-
-}
-return liveneighbors;
-}
-void Process::update(){
-
-for(int i=0;i<grid.getRows();i++){
-
-   for(int j=0;j<grid.getColumns();j++){
-    int live=CountNeighbors(i,j);
-    int cellval=grid.GetValue(i,j);
-    if(cellval==1){
-        if(live>3||live<2){
-            temp.SetValue(i,j,0);
-
-        }
-        else{
-            temp.SetValue(i,j,1);
-        }
-    }
-    else{
-       if(live==3){
-        temp.SetValue(i,j,1);
-       }
-       else{
-
-        temp.SetValue(i,j,0);
-       }
-    }
-   }
-}
-grid=temp;
-}*/
 
 
 

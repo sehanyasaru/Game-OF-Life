@@ -17,6 +17,7 @@ SetTargetFPS(fps);
 
 Process process{WIN_WIDTH,WIN_HEIGHT,CELL_SIZE};
 
+
 while(WindowShouldClose()==false){
     process.update();
     BeginDrawing();
