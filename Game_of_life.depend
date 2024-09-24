@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1727166179 source:c:\users\user\desktop\game_of_life\main.cpp
+	<iostream>
+	<raylib.h>
+	"Grid.h"
+
+1727167067 c:\users\user\desktop\game_of_life\include\grid.h
+	<vector>
+
+1727167067 source:c:\users\user\desktop\game_of_life\src\grid.cpp
+	"Grid.h"
+	<raylib.h>
+
+1727166278 c:\users\user\desktop\game_of_life\include\process.h
+	"Grid.h"
+
+1727166297 source:c:\users\user\desktop\game_of_life\src\process.cpp
+	"Process.h"
+	<utility>
+	<vector>
+
